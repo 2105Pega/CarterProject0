@@ -1,14 +1,10 @@
 package com.revature.driver;
 
 import java.util.Scanner;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.HashMap;
 
+import com.revature.account.Account;
 import com.revature.users.User;
 
 public class Driver {
@@ -16,26 +12,10 @@ public class Driver {
 	public static void main(String[] args) {
 		// Serialize in
 		HashMap<String, User> users =  new HashMap<String, User>();
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream("users.txt");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			users =  (HashMap<String, User>) ois.readObject();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
+		ObjectSerializer<HashMap<String, User>> userSerial = new ObjectSerializer<HashMap<String, User>>();
 		// Hash Map of Users (Primary key is username) and rel info
-		//User admin = new User("admin", "admin");
-		//users.put("admin", admin);
+		users = (HashMap<String, User>)userSerial.deserializeMe("users.txt");
 		
 		// Hash Map of accounts (Primary key is accountNumber) with rel info
 		//HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();		
@@ -85,21 +65,7 @@ public class Driver {
     	}
 	    
 	    // Serialize out
-		FileOutputStream fos;
-		try {
-			fos = new FileOutputStream("users.txt");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(users);
-			oos.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		userSerial.serializeMe(users, "users.txt.");		
 	    
 	    System.out.println("Closing...");
 	    scan.close();

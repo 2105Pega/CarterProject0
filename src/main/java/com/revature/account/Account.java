@@ -1,51 +1,51 @@
 package com.revature.account;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable{
 	
+	// Default serialVersionUID
+	private static final long serialVersionUID = 1L;
 	private double balance;
 	private int accountNumber;
+	private String[] accountOwner;
 	private String accountType;
 	
-	public Account(int accountNumber, double balance, String accountType) {
+	public Account(int accountNumber, double balance, String accountType, String accountOwner) {
 		this.balance = balance;
 		this.accountNumber = accountNumber;
 		this.accountType = accountType;
-	}
-	
-	// Deposit and chosen amount of money
-	public void deposit(double amount) {
-		if(amount > 0.0d) {
-			// add "amount" to balance
-			this.balance = this.balance + amount;
-			System.out.println("Success! New balance: " + this.balance);
-		}
-		else {
-			System.out.println("Error. Invalid amount.");
-		}
-	}
-	
-	// Withdraw a chosen amount of money
-	public void withdraw(double amount) {
-		// input > 0
-		if(amount > 0.0d) {
-			if(amount <= this.balance) {
-				// take "amount" from balance
-				this.balance = this.balance - amount;
-				System.out.println("Success! New balance: " + this.balance);
-			}
-			else {
-				// prevent overdraft
-				System.out.println("Error. Amount exceeds balance. Available balance: " + this.balance);
-			}
-		}
-		else {
-			System.out.println("Error. Invalid amount.");
-		}
+		this.accountOwner[0] = accountOwner;
 	}
 
 	public double getBalance() {
 		return balance;
 	}
+	public void setBalance(double amt) {
+		this.balance = amt;
+	}
+
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String[] getAccountOwner() {
+		return accountOwner;
+	}
+	public void setAccountOwner(String[] accountOwner) {
+		this.accountOwner = accountOwner;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+	
 	
 	
 }
