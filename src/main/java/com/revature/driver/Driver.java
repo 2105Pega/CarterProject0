@@ -1,21 +1,44 @@
 package com.revature.driver;
 
 import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
-import com.revature.account.Account;
 import com.revature.users.User;
 
 public class Driver {
 
 	public static void main(String[] args) {
-		// Hash Map of Users (Primary key is username) and rel info
+		// Serialize in
 		HashMap<String, User> users =  new HashMap<String, User>();
-		User admin = new User("admin", "admin");
-		users.put("admin", admin);
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream("users.txt");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			users =  (HashMap<String, User>) ois.readObject();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		// Hash Map of Users (Primary key is username) and rel info
+		//User admin = new User("admin", "admin");
+		//users.put("admin", admin);
 		
 		// Hash Map of accounts (Primary key is accountNumber) with rel info
-		HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
+		//HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();		
 		
 		// Log in or sign up on the app
 		Scanner scan = new Scanner(System.in);
@@ -47,16 +70,36 @@ public class Driver {
     		// create new username
     		System.out.println("Enter new username: ");
     		String username = scan.nextLine();
-    		System.out.println("Enter new Password: ");
-    		String password = scan.nextLine();
-    		User temp = new User(username, password);
-    		users.put(username, temp);
-    		System.out.println("New User Created!");
-    		// auto-sign in and browse
-    		browse(temp);
+    		if(users.containsKey(username)) {
+    			System.out.println("Username already taken.");
+    			// go back and try again
+    		} else {
+    			System.out.println("Enter new Password: ");
+        		String password = scan.nextLine();
+        		User temp = new User(username, password);
+        		users.put(username, temp);
+        		System.out.println("New User Created!\nSigning you in...");
+        		// auto-sign in and browse
+        		browse(temp);
+    		}
     	}
 	    
-	    
+	    // Serialize out
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream("users.txt");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(users);
+			oos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	    
 	    System.out.println("Closing...");
 	    scan.close();
@@ -64,7 +107,7 @@ public class Driver {
 	}
 	
 	public static void browse(User user) {
-		
+		// Account actions and such.
 	}
 
 }
