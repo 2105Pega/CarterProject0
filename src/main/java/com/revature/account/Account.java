@@ -1,6 +1,7 @@
 package com.revature.account;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Account implements Serializable{
 	
@@ -8,14 +9,14 @@ public class Account implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private double balance;
 	private int accountNumber;
-	private String[] accountOwner;
+	private ArrayList<String> accountOwner = new ArrayList<String>();
 	private String accountType;
 	
-	public Account(int accountNumber, double balance, String accountType, String accountOwner) {
-		this.balance = balance;
-		this.accountNumber = accountNumber;
-		this.accountType = accountType;
-		this.accountOwner[0] = accountOwner;
+	public Account(int _accountNumber, double _balance, String _accountType, String _accountOwner) {
+		this.balance = _balance;
+		this.accountNumber = _accountNumber;
+		this.accountType = _accountType;
+		this.accountOwner.add(_accountOwner);
 	}
 
 	public double getBalance() {
@@ -32,10 +33,10 @@ public class Account implements Serializable{
 		this.accountNumber = accountNumber;
 	}
 
-	public String[] getAccountOwner() {
+	public ArrayList<String> getAccountOwner() {
 		return accountOwner;
 	}
-	public void setAccountOwner(String[] accountOwner) {
+	public void setAccountOwner(ArrayList<String> accountOwner) {
 		this.accountOwner = accountOwner;
 	}
 

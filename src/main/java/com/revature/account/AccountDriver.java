@@ -1,5 +1,7 @@
 package com.revature.account;
 
+import java.util.ArrayList;
+
 public class AccountDriver {
 	private Account a1;
 	private Account a2;
@@ -52,4 +54,10 @@ public class AccountDriver {
 		}
 	}
 		
+	public void addOwner(String newOwner) {
+		ArrayList<String> owners = new ArrayList<String>();
+		owners = a1.getAccountOwner();
+		owners.add(newOwner);
+		a1.setAccountOwner(owners);
+	}
 }
