@@ -52,18 +52,18 @@ public class Driver {
 		if (activeUser.getAccess().equals("admin")) {
 			Employee admin = new Employee(scan, users, accounts);
 			System.out.println("\nWelcome employee!");
-			while(true) {
+			do {
 				System.out.println("What would you like to do?\n"
 						+ "'View Customer' | 'View Account' | 'Edit Accounts' | 'View Applicatoins' | 'Log Out'");
 				String response = scan.nextLine();
 				if(response.toLowerCase().equals("view customer")) {
 					System.out.println("Please input customer username:");
-					String uname = scan.next();
+					String uname = scan.nextLine();
 					admin.viewCustomer(uname);
 					continue;
 				} else if (response.toLowerCase().equals("view account")) {
 					System.out.println("Please input account number:");
-					Integer accNum = Integer.parseInt(scan.next());
+					Integer accNum = scan.nextInt();
 					admin.viewAccount(accNum);
 					continue;
 				} else if (response.toLowerCase().equals("edit accounts")) {
@@ -77,10 +77,10 @@ public class Driver {
 					Integer accNum = scan.nextInt();
 					Account a = accounts.get(accNum);
 					AccountDriver ad = new AccountDriver(a);
-					while(true) {
+					do {
 						System.out.println("Would you like to:\n'Withdraw' | 'Deposit' | 'Transfer' | "
 								+ "'Cancel Account' | 'Exit'");
-						String input = scan.next();
+						String input = scan.nextLine();
 						if (input.toLowerCase().equals("withdraw")) {
 							System.out.println("Enter an amount to withdraw from account " + accNum);
 							double amount = scan.nextDouble();
@@ -121,14 +121,13 @@ public class Driver {
 						} else if (input.toLowerCase().equals("cancel account")) {
 							System.out.println("Are you sure you want to cancel account "
 								+ accNum + "?\n'Yes' | 'No'");
-							String cancel = scan.next();
+							String cancel = scan.nextLine();
 							if (cancel.toLowerCase().startsWith("y")) {
 								ArrayList<String> owners = accounts.get(accNum).getAccountOwner();
 								for(String owner:owners) {
 									users.get(owner).setAccess("pending");
-									users.get(owner).setAccountNumber(0);
 								}
-								accounts.remove(accNum);
+								accounts.get(accNum).setBalance(0);
 								System.out.println("Account deleted.");
 								continue;
 							} else if (cancel.toLowerCase().startsWith("n")) {
@@ -138,8 +137,11 @@ public class Driver {
 						} else if (input.toLowerCase().equals("exit")) {
 							System.out.println("Exiting account editor...");
 							break;
+						} else {
+							System.out.println("Invalid option.");
+							continue;
 						}
-					}
+					} while(true);
 				} else if (response.toLowerCase().equals("view applications")) {
 					System.out.println("Accounts with open applications:");
 					accounts.values().forEach(acc -> {
@@ -149,7 +151,7 @@ public class Driver {
 						}
 					});
 					System.out.println("Choose an account to view and approve/deny, or 'Exit'.");
-					String input = scan.next();
+					String input = scan.nextLine();
 					if (input.toLowerCase().startsWith("cancel")) {
 						System.out.println("Canceling application review");
 					} else {
@@ -163,7 +165,7 @@ public class Driver {
 				} else 
 					System.out.println("Invalid choice. Try again.");
 					continue;
-			}
+			} while(true);
 			
 		} else if (activeUser.getAccess().equals("customer")) {
 			Customer cust = new Customer(activeUser);
