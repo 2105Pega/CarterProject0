@@ -3,7 +3,7 @@ package com.revature.users;
 public class Customer {
 	
 	public Customer(User user) {
-		user.setAccess("customer");
+		user.getUsername();
 	}
 
 	public void applyForAccount(double initBalance) {

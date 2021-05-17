@@ -11,12 +11,14 @@ public class Account implements Serializable{
 	private int accountNumber;
 	private ArrayList<String> accountOwner = new ArrayList<String>();
 	private String accountType;
+	private String status;
 	
 	public Account(int _accountNumber, double _balance, String _accountType, String _accountOwner) {
 		this.balance = _balance;
 		this.accountNumber = _accountNumber;
 		this.accountType = _accountType;
 		this.accountOwner.add(_accountOwner);
+		this.status = "pending";
 	}
 
 	public double getBalance() {
@@ -45,6 +47,13 @@ public class Account implements Serializable{
 	}
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

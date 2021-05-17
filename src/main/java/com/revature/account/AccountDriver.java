@@ -54,6 +54,7 @@ public class AccountDriver {
 		}
 	}
 		
+	// Add and owner to an account
 	public void addOwner(String newOwner) {
 		ArrayList<String> owners = new ArrayList<String>();
 		owners = a1.getAccountOwner();

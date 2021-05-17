@@ -8,8 +8,9 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
-	private String access = null;
-		
+	private String access = "null";
+	private Integer accountNumber = 0;
+
 	public User() {
 		super();
 	}
@@ -37,6 +38,12 @@ public class User implements Serializable{
 		this.access = access;
 	}
 	
+	public Integer getAccountNumber() {
+		return accountNumber;
+	}
+	public void setAccountNumber(Integer accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 	
 		
 }
