@@ -16,7 +16,6 @@ public class AccountDriver {
 		if (a1.getBalance() >= amount) {
 			a1.setBalance(a1.getBalance() - amount);
 			a2.setBalance(a2.getBalance() + amount);
-			// something to display new amounts to admin, just customer's balance after success
 			System.out.println("Success. Account " + a1.getAccountNumber() + " has transferred " + amount
 					+ " to account " + a2.getAccountNumber() + ".");
 		} else {

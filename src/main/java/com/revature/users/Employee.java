@@ -4,15 +4,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import com.revature.account.Account;
+import com.revature.account.AccountDriver;
 
 public class Employee {
+	Scanner scan;
+	HashMap<String, User> users;
+	HashMap<Integer, Account> accounts;
 	
-	public Employee() {
-		super();
+	public Employee(Scanner _scan, HashMap<String, User> _users, HashMap<Integer, Account> _accounts) {
+		this.scan = _scan;
+		this.users = _users;
+		this.accounts = _accounts;
 	}
 	
 	// View customer info from username
-	public void viewCustomer(HashMap<String, User> users, String username) {
+	public void viewCustomer(String username) {
 		User cust = null;
 		if(users.containsKey(username)) {
 			cust = users.get(username);
@@ -24,7 +30,7 @@ public class Employee {
 			System.out.println("No customer with specified username.");
 	}
 	
-	public void viewAccount(HashMap<Integer, Account> accounts, Integer accNum) {
+	public void viewAccount(Integer accNum) {
 		Account acc = null;
 		if(accounts.containsKey(accNum)) {
 			acc = accounts.get(accNum);
@@ -38,7 +44,7 @@ public class Employee {
 		
 	}
 	
-	public void reviewApplication(Scanner scan, HashMap<Integer, Account> accounts, Integer accNum) {
+	public void reviewApplication(Integer accNum) {
 		do {
 			System.out.println("Would you like to\n'Approve' | 'Deny'");
 			String response = scan.nextLine();
