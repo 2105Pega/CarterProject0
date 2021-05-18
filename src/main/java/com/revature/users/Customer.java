@@ -53,11 +53,6 @@ public class Customer {
 				continue;
 			}
 		} while(true);
-	}
-	
-	public void addToJointAccount(User user, HashMap<Integer, Account> accounts) {
-		
 	}	
-	
 	
 }

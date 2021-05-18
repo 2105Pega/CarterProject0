@@ -3,24 +3,40 @@ package com.revature.account;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+
 public class AccountDriver {
 	private Account a1;
-	private Account a2;
+	static Logger log;
 
 	public AccountDriver(Account account) {
 		this.a1 = account;
+		if (log == null) {
+			log = LogManager.getLogger(AccountDriver.class);
+		}
 	}
 
 	// Transfer money between accounts
 	public void transfer(Account recipient, double amount) {
-		this.a2 = recipient;
+		Account a2 = recipient;
 		if (a1.getBalance() >= amount) {
-			a1.setBalance(a1.getBalance() - amount);
-			a2.setBalance(a2.getBalance() + amount);
-			System.out.println("Success. Account " + a1.getAccountNumber() + " has transferred " + amount
-					+ " to account " + a2.getAccountNumber() + ".");
+			if(amount >= 0.0d) {
+				a1.setBalance(a1.getBalance() - amount);
+				a2.setBalance(a2.getBalance() + amount);
+				System.out.println("Success. Account " + a1.getAccountNumber() + " has transferred " + amount
+						+ " to account " + a2.getAccountNumber() + ".");
+				log.warn("Transferred " + amount + " from account " + a1.getAccountNumber() +" to account " 
+					+ a2.getAccountNumber() + ".");
+			} else {
+				System.out.println("Error. Invalid amount.");
+				log.error("Error. Cannot withdraw transfer amount.");
+			}
 		} else {
 			System.out.println("Account " + a1.getAccountNumber() + " has insufficient funds.");
+			log.error("Error. Insifficient funds to transfer " + amount + " from account " 
+				+ a1.getAccountNumber() + " to account " + a2.getAccountNumber() + ".");
 		}
 	}
 
@@ -30,8 +46,11 @@ public class AccountDriver {
 			// add "amount" to balance
 			a1.setBalance(a1.getBalance()+amount);
 			System.out.println("Success! New balance: " + a1.getBalance());
+			log.warn("Deposited " + amount + " to account " + a1.getAccountNumber() +". New balance: " 
+					+ a1.getBalance() + ".");
 		} else {
 			System.out.println("Error. Invalid amount.");
+			log.error("Error. Cannot deposit negative amount.");
 		}
 	}
 
@@ -43,14 +62,18 @@ public class AccountDriver {
 				// take "amount" from balance
 				a1.setBalance(a1.getBalance()-amount);
 				System.out.println("Success! New balance: " + a1.getBalance());
+				log.warn("Withdrew " + amount + " from account " + a1.getAccountNumber() +". New balance: " 
+						+ a1.getBalance() + ".");
 			}
 			else {
 				// prevent overdraft
 				System.out.println("Error. Amount exceeds balance. Available balance: " + a1.getBalance());
+				log.error("Error. Cannot withdraw amount " + amount + ". Available balance: " + a1.getBalance() + ".");
 			}
 		}
 		else {
 			System.out.println("Error. Invalid amount.");
+			log.error("Error. Cannot withdraw negative amount.");
 		}
 	}
 		
