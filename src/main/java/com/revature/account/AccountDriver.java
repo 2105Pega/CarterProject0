@@ -1,6 +1,7 @@
 package com.revature.account;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AccountDriver {
 	private Account a1;
@@ -59,5 +60,14 @@ public class AccountDriver {
 		owners = a1.getAccountOwner();
 		owners.add(newOwner);
 		a1.setAccountOwner(owners);
+	}
+	
+	public static Integer generateAccountNumber() {
+		ArrayList<Integer> accNums = new ArrayList<Integer>();
+		for (int i = 1; i < 999; i++) {
+			  accNums.add(i);
+		}
+		Collections.shuffle(accNums);
+		return accNums.get(0);
 	}
 }

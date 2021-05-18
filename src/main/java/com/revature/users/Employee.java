@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import com.revature.account.Account;
-import com.revature.account.AccountDriver;
 
 public class Employee {
 	Scanner scan;
@@ -41,7 +40,6 @@ public class Employee {
 		}
 		else
 			System.out.println("No account with specified account number.");
-		
 	}
 	
 	public void reviewApplication(Integer accNum) {
@@ -50,19 +48,17 @@ public class Employee {
 			String response = scan.nextLine();
 			if(response.toLowerCase().startsWith("a")) {
 				accounts.get(accNum).setStatus("approved");
+				System.out.println("Account " + accNum + " has been aproved.");
 				break;
 			} else if (response.toLowerCase().startsWith("d")) {
 				accounts.get(accNum).setStatus("denied");
+				System.out.println("Account " + accNum + " has been denied.");
 				break;
 			} else {
 				System.out.println("Invalid action.");
 				continue;
 			}
 		} while (true);
-	}
-	
-	public void cancelAccount(Account accountNumber) {
-		// cancel an account from account number
 	}
 
 }
