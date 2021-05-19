@@ -31,30 +31,70 @@ public class AccountTests {
 
 	@Test
 	public void testDeposit() {
+		System.out.println("testDeposit()");
 		ad.deposit(100.00d);
 		assertEquals(a1.getBalance(), 200.00d);
 		ad.deposit(-0.25);
 		assertEquals(a1.getBalance(), 200.00d);
+		System.out.println();
 	}
 	
 	@Test
 	public void testWithdraw() {
+		System.out.println("testWithdraw()");
 		ad.withdraw(50.00d);
 		assertEquals(a1.getBalance(), 50.00d);
 		ad.withdraw(-0.25);
 		assertEquals(a1.getBalance(), 50.00d);
 		ad.withdraw(150.00d);
 		assertEquals(a1.getBalance(), 50.00d);
+		System.out.println();
 	}
 	
 	@Test
 	public void testTransfer() {
+		System.out.println("testTransfer()");
 		ad.transfer(a2, 50.0d);
 		assertEquals(50.0d, a1.getBalance());
 		assertEquals(550.0d, a2.getBalance());
-		ad.transfer(a1, -50.0d);
+		ad.transfer(a2, -50.0d);
 		assertEquals(50.0d, a1.getBalance());
 		assertEquals(550.0d, a2.getBalance());
+		System.out.println();
+	}
+	
+	@Test
+	public void testTransferCustomException() {
+		System.out.println("testTransferCustomException()");
+		ad.transferCustomException(a2, 50.0d);
+		assertEquals(50.0d, a1.getBalance());
+		assertEquals(550.0d, a2.getBalance());
+		ad.transferCustomException(a2, -50.0d);
+		assertEquals(50.0d, a1.getBalance());
+		assertEquals(550.0d, a2.getBalance());
+		System.out.println();
+	}
+	
+	@Test
+	public void testDepositCustomException() {
+		System.out.println("testDepositCustomException()");
+		ad.deposit(100.00d);
+		assertEquals(a1.getBalance(), 200.00d);
+		ad.deposit(-0.25);
+		assertEquals(a1.getBalance(), 200.00d);
+		System.out.println();
+	}
+	
+	@Test
+	public void testWithdrawCustomException() {
+		System.out.println("testWithdrawCustomException()");
+		ad.withdraw(50.00d);
+		assertEquals(a1.getBalance(), 50.00d);
+		ad.withdraw(-0.25);
+		assertEquals(a1.getBalance(), 50.00d);
+		ad.withdraw(150.00d);
+		assertEquals(a1.getBalance(), 50.00d);
+		System.out.println();
 	}
 	
 }

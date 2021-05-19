@@ -1,1 +1,106 @@
 17:53:40.321 WARN  - Withdrew 50.05 from account 1. New balance: 100207.45.
+15:00:03.515 WARN  - Transferred 50.0 from account 1 to account 2.
+15:00:03.524 ERROR - Error. Cannot withdraw transfer amount.
+15:00:03.563 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:00:03.564 ERROR - Error. Cannot withdraw negative amount.
+15:00:03.564 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:00:03.566 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:00:03.566 ERROR - Error. Cannot deposit negative amount.
+15:00:03.568 WARN  - Transferred 50.0 from account 1 to account 2.
+15:00:03.569 ERROR - Error. Cannot withdraw transfer amount.
+15:03:53.015 WARN  - Transferred 50.0 from account 1 to account 2.
+15:03:53.023 ERROR - Error. Cannot withdraw transfer amount.
+15:03:53.033 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:03:53.033 ERROR - Error. Cannot withdraw negative amount.
+15:03:53.034 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:03:53.037 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:03:53.037 ERROR - Error. Cannot deposit negative amount.
+15:03:53.039 WARN  - Transferred 50.0 from account 1 to account 2.
+15:03:53.040 ERROR - Error. Cannot withdraw transfer amount.
+15:05:28.540 WARN  - Transferred 50.0 from account 1 to account 2.
+15:05:28.550 ERROR - Error. Cannot withdraw transfer amount. (this is an exception)
+15:05:28.564 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:05:28.564 ERROR - Error. Cannot withdraw negative amount.
+15:05:28.565 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:05:28.571 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:05:28.571 ERROR - Error. Cannot deposit negative amount.
+15:05:28.574 WARN  - Transferred 50.0 from account 1 to account 2.
+15:05:28.575 ERROR - Error. Cannot withdraw transfer amount.
+15:06:11.532 WARN  - Transferred 50.0 from account 1 to account 2.
+15:06:11.572 ERROR - Error. Cannot withdraw transfer amount. (this is an exception)
+15:06:11.599 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:06:11.600 ERROR - Error. Cannot withdraw negative amount.
+15:06:11.600 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:06:11.602 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:06:11.602 ERROR - Error. Cannot deposit negative amount.
+15:06:11.605 WARN  - Transferred 50.0 from account 1 to account 2.
+15:06:11.605 ERROR - Error. Cannot withdraw transfer amount.
+15:08:58.226 WARN  - Transferred 50.0 from account 1 to account 2.
+15:08:58.251 ERROR - Error. Cannot withdraw transfer amount. (this is an exception)
+15:08:58.261 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:08:58.262 ERROR - Error. Cannot withdraw negative amount.
+15:08:58.262 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:08:58.265 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:08:58.265 ERROR - Error. Cannot deposit negative amount.
+15:08:58.269 WARN  - Transferred 50.0 from account 1 to account 2.
+15:08:58.269 ERROR - Error. Cannot withdraw transfer amount.
+15:13:28.300 WARN  - Transferred 50.0 from account 1 to account 2.
+15:13:28.313 ERROR - Error. Insifficient funds to transfer -50.0 from account 1 to account 1.
+15:13:28.332 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:13:28.332 ERROR - Error. Cannot withdraw negative amount.
+15:13:28.333 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:13:28.335 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:13:28.335 ERROR - Error. Cannot deposit negative amount.
+15:13:28.337 WARN  - Transferred 50.0 from account 1 to account 2.
+15:13:28.337 ERROR - Error. Cannot withdraw transfer amount.
+15:14:37.711 WARN  - Transferred 50.0 from account 1 to account 2.
+15:14:37.723 ERROR - Error. Insifficient funds to transfer -50.0 from account 1 to account 2.
+15:14:37.737 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:14:37.737 ERROR - Error. Cannot withdraw negative amount.
+15:14:37.738 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:14:37.740 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:14:37.741 ERROR - Error. Cannot deposit negative amount.
+15:14:37.743 WARN  - Transferred 50.0 from account 1 to account 2.
+15:14:37.743 ERROR - Error. Cannot withdraw transfer amount.
+15:22:12.835 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:22:12.843 ERROR - Error. Cannot withdraw negative amount.
+15:22:12.844 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:22:12.856 WARN  - Transferred 50.0 from account 1 to account 2.
+15:22:12.856 ERROR - Error. Cannot withdraw transfer amount.
+15:22:12.859 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:22:12.859 ERROR - Error. Cannot withdraw negative amount.
+15:22:12.859 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:22:12.862 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:22:12.862 ERROR - Error. Cannot deposit negative amount.
+15:22:12.865 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:22:12.866 ERROR - Error. Cannot deposit negative amount.
+15:22:12.868 WARN  - Transferred 50.0 from account 1 to account 2.
+15:22:12.868 ERROR - Error. Cannot withdraw transfer amount.
+15:24:00.725 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:24:00.734 ERROR - Error. Cannot withdraw negative amount.
+15:24:00.735 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:24:00.744 WARN  - Transferred 50.0 from account 1 to account 2.
+15:24:00.745 ERROR - Error. Cannot withdraw transfer amount.
+15:24:00.746 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:24:00.747 ERROR - Error. Cannot withdraw negative amount.
+15:24:00.747 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:24:00.749 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:24:00.749 ERROR - Error. Cannot deposit negative amount.
+15:24:00.751 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:24:00.751 ERROR - Error. Cannot deposit negative amount.
+15:24:00.753 WARN  - Transferred 50.0 from account 1 to account 2.
+15:24:00.753 ERROR - Error. Cannot withdraw transfer amount.
+15:25:26.395 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:25:26.406 ERROR - Error. Cannot withdraw negative amount.
+15:25:26.406 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:25:26.417 WARN  - Transferred 50.0 from account 1 to account 2.
+15:25:26.417 ERROR - Error. Cannot withdraw transfer amount.
+15:25:26.420 WARN  - Withdrew 50.0 from account 1. New balance: 50.0.
+15:25:26.420 ERROR - Error. Cannot withdraw negative amount.
+15:25:26.420 ERROR - Error. Cannot withdraw amount 150.0. Available balance: 50.0.
+15:25:26.422 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:25:26.422 ERROR - Error. Cannot deposit negative amount.
+15:25:26.424 WARN  - Deposited 100.0 to account 1. New balance: 200.0.
+15:25:26.425 ERROR - Error. Cannot deposit negative amount.
+15:25:26.427 WARN  - Transferred 50.0 from account 1 to account 2.
+15:25:26.427 ERROR - Error. Cannot withdraw transfer amount.
