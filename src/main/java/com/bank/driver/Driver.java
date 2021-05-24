@@ -9,14 +9,11 @@ import java.util.Map.Entry;
 
 import com.bank.account.Account;
 import com.bank.account.AccountService;
-import com.bank.users.Customer;
-import com.bank.users.Employee;
 import com.bank.users.User;
+import com.bank.users.UserService;
 
 public class Driver {
 
-	//@SuppressWarnings("unchecked")
-	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		
 		// Hash Map of Users (Primary key is userId) and rel info
@@ -29,6 +26,7 @@ public class Driver {
 		AccountService accServ = new AccountService();
 		HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
 		accounts = accServ.getAllAccounts();
+		Account activeAccount = null;
 		
 		// Log in or sign up on the app
 		Scanner scan = new Scanner(System.in);
@@ -38,20 +36,21 @@ public class Driver {
 			// Implement a customer sign in and an employee sign in 
 			// employee sign in will read from a properties file
 			System.out.println("Would you like to\n'Log In' | 'Sign Up'?");
-			SignInner signInMenu = new SignInner(scan, users);
 			String response = scan.nextLine();
 			if (response.toLowerCase().startsWith("l")) {
-				activeUser = signInMenu.logIn();
+				activeUser = SignInner.logIn(users);
 				if (activeUser == null)
 					continue;
 				else
 					signedIn = true;
 			} else if (response.toLowerCase().startsWith("s")) {
-				activeUser = signInMenu.signUp();
+				activeUser = SignInner.signUp();
 				if (activeUser == null)
 					continue;
-				else
+				else {
 					signedIn = true;
+					users.put(activeUser.getUserId(), activeUser);
+				}
 			}
 		} while (signedIn == false);
 		

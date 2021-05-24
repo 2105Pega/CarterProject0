@@ -1,83 +1,79 @@
 package com.bank.driver;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.bank.users.User;
+import com.bank.users.UserService;
 
 public class SignInner {
-	Scanner scan;
-	HashMap<String, User> users;
 
-	public SignInner(Scanner _scan, HashMap<String, User> _users) {
-		this.scan = _scan;
-		this.users = _users;
-	}
-
-	public User logIn() {
+	public static User logIn(HashMap<Integer, User> users) {
+		Scanner signInScan = new Scanner(System.in);
 		System.out.println("Enter username: ");
-		String username = scan.nextLine();
+		String username = signInScan.nextLine();
+		Collection<User> usersColl = users.values();
+		Iterator<User> collIt = usersColl.iterator();
+		boolean hasUsername = false;
+		User activeUser = null;
+		while(collIt.hasNext()) {
+			String storedUsername = collIt.next().getUsername();
+			if (username.equals(storedUsername)) {
+				activeUser = collIt.next();
+				hasUsername = true;
+				break;
+			}
+		}
 		// If the username is associated with a user:
-		if (users.containsKey(username)) {
+		if (hasUsername) {
 			// compare password associated with username
 			System.out.println("Enter password:");
-			String password = scan.nextLine();
-			String expectedPassword = users.get(username).getPassword();
+			String password = signInScan.nextLine();
+			String expectedPassword = activeUser.getPassword();
 			if (password.equals(expectedPassword)) {
 				System.out.println("Logging in...");
-				return users.get(username);
+				signInScan.close();
+				return activeUser;
 			} else {
 				System.out.println("Incorrect password :(");
+				signInScan.close();
 				return null;
 			}
 
 		} else {
 			// no user with that username detected
 			System.out.println("No account associated with that username.\n"
-					+ "Would you like to create and acocunt with that username?\n'Yes'| 'No'");
-			String response = scan.nextLine();
-			if (response.toLowerCase().startsWith("y"))
-				return signUp(username);
-			else
+					+ "Would you like to create and acocunt?\n'Yes'| 'No'");
+			String response = signInScan.nextLine();
+			if (response.toLowerCase().startsWith("y")) {
+				signInScan.close();
+				return signUp();
+			} else {
+				signInScan.close();
 				return null;
+			}
 		}
 	}
 
-	public User signUp() {
+	public static User signUp() {
+		UserService uServ = new UserService();
+		Scanner signInScan = new Scanner(System.in);
 		// create new username
 		System.out.println("Enter new username: ");
-		String username = scan.nextLine();
-		if(users.containsKey(username)) {
-			System.out.println("Username already taken.");
-			return null;
-		} else {
-			System.out.println("Enter new Password: ");
-    		String password = scan.nextLine();
-    		User temp = new User(username, password);
-    		System.out.println("Are you and employee?\n'Yes'| 'No'");
-    		String employee = scan.nextLine();
-    		if (employee.toLowerCase().startsWith("y"))
-    			temp.setAccess("admin");
-    		else if(employee.toLowerCase().startsWith("n"))
-    			temp.setAccess("customer");
-    		users.put(username, temp);
-    		System.out.println("New User Created!\nSigning you in...");
-    		return temp;
-		}
-	}
-	
-	public User signUp(String _username) {
+		String username = signInScan.nextLine();
 		System.out.println("Enter new Password: ");
-		String password = scan.nextLine();
-		User temp = new User(_username, password);
-		System.out.println("Are you and employee?\n'Yes'| 'No'");
-		String employee = scan.nextLine();
-		if (employee.toLowerCase().startsWith("y"))
-			temp.setAccess("admin");
-		else if(employee.toLowerCase().startsWith("n"))
-			temp.setAccess("customer");
-		users.put(_username, temp);
+		String password = signInScan.nextLine();
+		System.out.println("Please input some personal info:\nFirst Name:");
+		String fName = signInScan.nextLine();
+		System.out.println("Last Name:");
+		String lName = signInScan.nextLine();
+		User temp = new User(0, username, password, fName, lName, "customer");
+		uServ.addUser(temp);
 		System.out.println("New User Created!\nSigning you in...");
+		signInScan.close();
 		return temp;
 	}
+
 }

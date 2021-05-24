@@ -85,6 +85,14 @@ public class UserDAOImpl implements UserDAO {
 			stmnt.setString(4, user.getfName());
 			stmnt.setString(5, user.getlName());
 			stmnt.execute();
+			
+			String sql2 = "select * from users where user_username = ? and user_password = ?";
+			PreparedStatement stmnt2 = conn.prepareStatement(sql2);
+			stmnt2.setString(1, user.getUsername());
+			stmnt2.setString(2, user.getPassword());
+			ResultSet rs = stmnt2.executeQuery();
+			if(rs.next())
+				user.setUserId(rs.getInt("user_id"));
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

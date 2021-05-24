@@ -28,14 +28,13 @@ public class User implements Serializable{
 		this.access = access;
 		this.accountNums = accounts;
 	}
-	public User(Integer userId, String username, String password, String fName, String lName, String access, int account) {
+	public User(Integer userId, String username, String password, String fName, String lName, String access) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.fName = fName;
 		this.lName = lName;
 		this.access = access;
-		this.accountNums.add(account);
 	}
 
 	public String getUsername() {
