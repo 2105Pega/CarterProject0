@@ -1,9 +1,9 @@
-package com.revature.driver;
+package com.bank.driver;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
-import com.revature.users.User;
+import com.bank.users.User;
 
 public class SignInner {
 	Scanner scan;

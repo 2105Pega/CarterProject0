@@ -1,4 +1,4 @@
-package com.revature.customexceptions;
+package com.bank.customexceptions;
 
 public class NegativeAmountException extends RuntimeException{
 

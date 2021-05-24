@@ -1,4 +1,4 @@
-package com.revature.driver;
+package com.bank.driver;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -7,33 +7,36 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.revature.account.Account;
-import com.revature.account.AccountDriver;
-import com.revature.users.Customer;
-import com.revature.users.Employee;
-import com.revature.users.User;
+import com.bank.account.Account;
+import com.bank.account.AccountService;
+import com.bank.users.Customer;
+import com.bank.users.Employee;
+import com.bank.users.User;
 
 public class Driver {
 
 	//@SuppressWarnings("unchecked")
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		// Serialize in
-		HashMap<String, User> users = new HashMap<String, User>();
-		HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
-		// Hash Map of Users (Primary key is username) and rel info
-		ObjectSerializer<HashMap<String, User>> userSerial = new ObjectSerializer<HashMap<String, User>>();
-		users = (HashMap<String, User>) userSerial.deserializeMe("users.txt");
+		
+		// Hash Map of Users (Primary key is userId) and rel info
+		UserService uServ = new UserService();
+		HashMap<Integer, User> users = new HashMap<Integer, User>();
+		users = uServ.getAllUsers();
 		User activeUser = null;
+		
 		// Hash Map of accounts (Primary key is accountNumber) with rel info
-		ObjectSerializer<HashMap<Integer, Account>> accountSerial = new ObjectSerializer<HashMap<Integer, Account>>();
-		accounts = (HashMap<Integer, Account>) accountSerial.deserializeMe("accounts.txt");
+		AccountService accServ = new AccountService();
+		HashMap<Integer, Account> accounts = new HashMap<Integer, Account>();
+		accounts = accServ.getAllAccounts();
 		
 		// Log in or sign up on the app
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Welcome!");
 		boolean signedIn = false;
 		do {
+			// Implement a customer sign in and an employee sign in 
+			// employee sign in will read from a properties file
 			System.out.println("Would you like to\n'Log In' | 'Sign Up'?");
 			SignInner signInMenu = new SignInner(scan, users);
 			String response = scan.nextLine();
@@ -83,7 +86,7 @@ public class Driver {
 					scan.nextLine();
 					
 					Account a = accounts.get(accNum);
-					AccountDriver ad = new AccountDriver(a);
+					AccountService ad = new AccountService(a);
 					do {
 						System.out.println("Would you like to:\n'Withdraw' | 'Deposit' | 'Transfer' | "
 								+ "'Cancel Account' | 'Exit'");
@@ -200,7 +203,7 @@ public class Driver {
 								+ userAccount.getAccountOwner() + ". The current balance is $" + userAccount.getBalance() + ".");
 							continue;
 						} else if(response.toLowerCase().equals("edit account")) {
-							AccountDriver ad = new AccountDriver(userAccount);
+							AccountService ad = new AccountService(userAccount);
 							System.out.println("Would you like to:\n'Depost' | 'Withdraw' | 'Transfer' | 'Exit'");
 							String edit = scan.nextLine();
 							if(edit.toLowerCase().equals("deposit")) {
@@ -299,7 +302,6 @@ public class Driver {
 
 		// Serialize out
 		userSerial.serializeMe(users, "users.txt.");
-		accountSerial.serializeMe(accounts, "accounts.txt");
 
 		System.out.println("Closing...");
 		scan.close();
