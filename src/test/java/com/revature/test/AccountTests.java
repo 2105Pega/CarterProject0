@@ -13,15 +13,15 @@ public class AccountTests {
 	
 	static Account a1;
 	static Account a2;
-	static AccountService ad;
+	static AccountService aServ;
 	static ArrayList<String> users = new ArrayList<String>();
 	
 	@BeforeAll
 	public static void makeAccountDriver() {
 		users.add("user1");
-		a1 = new Account(1, 100.00d, "joint", "user1");
-		a2 = new Account(2, 500.00d, "single", "user2");
-		ad = new AccountService(a1);
+		a1 = new Account(1, 100.00d, "joint", 1,"approved");
+		a2 = new Account(2, 500.00d, "single", 2, "approved");
+		aServ = new AccountService();
 	}
 	
 	@BeforeEach
@@ -33,9 +33,9 @@ public class AccountTests {
 	@Test
 	public void testDeposit() {
 		System.out.println("testDeposit()");
-		ad.deposit(100.00d);
+		aServ.deposit(a1, 100.00d);
 		assertEquals(a1.getBalance(), 200.00d);
-		ad.deposit(-0.25);
+		aServ.deposit(a1, -0.25);
 		assertEquals(a1.getBalance(), 200.00d);
 		System.out.println();
 	}
@@ -43,11 +43,11 @@ public class AccountTests {
 	@Test
 	public void testWithdraw() {
 		System.out.println("testWithdraw()");
-		ad.withdraw(50.00d);
+		aServ.withdraw(a1, 50.00d);
 		assertEquals(a1.getBalance(), 50.00d);
-		ad.withdraw(-0.25);
+		aServ.withdraw(a1, -0.25);
 		assertEquals(a1.getBalance(), 50.00d);
-		ad.withdraw(150.00d);
+		aServ.withdraw(a1, 150.00d);
 		assertEquals(a1.getBalance(), 50.00d);
 		System.out.println();
 	}
@@ -55,10 +55,10 @@ public class AccountTests {
 	@Test
 	public void testTransfer() {
 		System.out.println("testTransfer()");
-		ad.transfer(a2, 50.0d);
+		aServ.transfer(a1, a2, 50.0d);
 		assertEquals(50.0d, a1.getBalance());
 		assertEquals(550.0d, a2.getBalance());
-		ad.transfer(a2, -50.0d);
+		aServ.transfer(a1, a2, -50.0d);
 		assertEquals(50.0d, a1.getBalance());
 		assertEquals(550.0d, a2.getBalance());
 		System.out.println();
