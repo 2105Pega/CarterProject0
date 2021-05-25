@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -55,7 +56,7 @@ public class Driver {
 		} while (signedIn == false);
 		
 		// Start using the app.
-		if (activeUser.getAccess().equals("admin")) {
+		/*if (activeUser.getAccess().equals("admin")) {
 			Employee admin = new Employee(scan, users, accounts);
 			System.out.println("\nWelcome employee!");
 			do {
@@ -175,65 +176,64 @@ public class Driver {
 					System.out.println("Invalid choice. Try again.");
 					continue;
 			} while(true);
-		} else if (activeUser.getAccess().equals("customer")) {
-			boolean hasAccount = false;
-			Iterator<Entry<Integer, Account>> accIterator = accounts.entrySet().iterator();
-			while(accIterator.hasNext()) {
-				Map.Entry<Integer, Account> acc = (Map.Entry<Integer, Account>) accIterator.next();
-				ArrayList<String> owners = acc.getValue().getAccountOwner();
-				if (owners.contains(activeUser.getUsername())) {
-					activeUser.setAccountNumber(acc.getKey());
-					hasAccount = true;
-					break;
-				}
-			}
+		} else */
+		if (activeUser.getAccess().equals("customer")) {
+			ArrayList<Account> userAccounts = accServ.getMyAccounts(activeUser.getUserId());
+			boolean hasAccount = !userAccounts.isEmpty();
 			if(hasAccount) {
-				Integer accNum = activeUser.getAccountNumber();
-				Account userAccount = accounts.get(accNum);
-				if (userAccount.getStatus().equals("approved")) {
-					System.out.println("Welcome customer!"); 
-					do {
-						System.out.println("What would you like to do today?\n"
-								+ "'Edit Account' | 'View Information' | 'Log out'");
-						String response = scan.nextLine();
-						if(response.toLowerCase().equals("view information")) {
-							System.out.println("You have a " + userAccount.getAccountType() 
-								+ " account with the number " + accNum + ", owned by " 
-								+ userAccount.getAccountOwner() + ". The current balance is $" + userAccount.getBalance() + ".");
-							continue;
-						} else if(response.toLowerCase().equals("edit account")) {
-							AccountService ad = new AccountService(userAccount);
+				System.out.println("Welcome customer!"); 
+				do {
+					System.out.println("What would you like to do today?\n"
+							+ "'Edit Account' | 'View Information' | 'Update User Information' | 'Log out'");
+					String response = scan.nextLine();
+					if(response.toLowerCase().equals("view information")) {
+						System.out.println("First Name: " + activeUser.getfName() + "\nLast Name: " + activeUser.getlName() +
+							"\nUsername: " + activeUser.getUsername()+ "\nPasssword : " + activeUser.getPassword() + 
+							"\nUser ID: " + activeUser.getUserId() + "\nAccounts :\nAccount Number | Account Type | Account Balance");
+						for (Account acc : userAccounts) {
+							System.out.println(acc.getAccountNumber() + " | " + acc.getAccountType() + " | " + acc.getBalance());
+						}
+						continue;
+					} else if(response.toLowerCase().equals("edit account")) {
+						System.out.println("Select an Account to edit:\nAccount Number | Account Type | Account Balance");
+						for (Account acc : userAccounts) {
+							System.out.println(acc.getAccountNumber() + " | " + acc.getAccountType() + " | " + acc.getBalance());
+						}
+						Integer activeAccNum = scan.nextInt();
+						scan.nextLine();
+						activeAccount = accounts.get(activeAccNum);
+						if (activeAccount.getStatus().equals("approved")) {
 							System.out.println("Would you like to:\n'Depost' | 'Withdraw' | 'Transfer' | 'Exit'");
 							String edit = scan.nextLine();
 							if(edit.toLowerCase().equals("deposit")) {
 								System.out.println("Enter and amount to deposit:");
 								double amnt = scan.nextDouble();
 								scan.nextLine();
-								ad.deposit(amnt);
-								accounts.put(accNum, userAccount);
+								accServ.deposit(activeAccount, amnt);
+								accounts.put(activeAccNum, activeAccount);
 								continue;
 							} else if(edit.toLowerCase().equals("withdraw")) {
 								System.out.println("Enter and amount to withdraw:");
 								double amnt = scan.nextDouble();
 								scan.nextLine();
-								ad.withdraw(amnt);
-								accounts.put(accNum, userAccount);
+								accServ.withdraw(activeAccount, amnt);
+								accounts.put(activeAccNum, activeAccount);
 								continue;
 							} else if(edit.toLowerCase().equals("transfer")) {
-								System.out.println("Enter an account to tranfer to:");
+								System.out.println("Enter an account to tranfer to (account number):");
 								Integer accNum2 = scan.nextInt();
 								scan.nextLine();
-								if (accNum.equals(accNum2)) {
+								if (activeAccNum.equals(accNum2)) {
 									System.out.println("Cannot transfer to the same account!");
 									continue;
 								} else if (accounts.containsKey(accNum2)){
 									System.out.println("Enter an ammount to transfer from account" 
-										+ accNum + " to account " + accNum2);
+										+ activeAccNum + " to account " + accNum2);
 									double amount = scan.nextDouble();
 									scan.nextLine();
 									Account a2 = accounts.get(accNum2);
-									ad.transfer(a2, amount);
-									accounts.put(accNum, userAccount);
+									accServ.transfer(activeAccount, a2, amount);
+									accounts.put(activeAccNum, activeAccount);
 									accounts.put(accNum2, a2);
 									continue;
 								} else {
@@ -244,44 +244,48 @@ public class Driver {
 								System.out.println("Exiting account editor...");
 								break;
 							}
-						} else if(response.toLowerCase().equals("log out")) {
-							System.out.println("Logging out...");
+						} else if(activeAccount.getStatus().equals("pending")) {
+							System.out.println("Your application has not yet "
+								+ "been processed. Please sign back in later. Signing out...");
 							break;
-						} else {
-							System.out.println("Invalid command");
-							continue;
+						} else if(activeAccount.getStatus().equals("denied")) {
+							System.out.println("Your application for a " + activeAccount.getAccountType() 
+								+ " account with an initial deposit of " + activeAccount.getBalance() 
+								+ " has been denied. Please either:\n'Reapply' | 'Log Out'");
+							accounts.remove(activeAccNum);
+							accServ.deleteAccount(activeAccNum);
+							String apply = scan.nextLine();
+							if(apply.toLowerCase().equals("reapply")) {
+								// here dumbass (5/24, 11 PM)
+								Integer newAccount = Customer.applyForAccount(activeUser.getUsername(), accounts);
+								activeUser.setAccountNumber(newAccount);
+								users.put(activeUser.getUsername(), activeUser);
+							} else if (apply.toLowerCase().equals("log out")) {
+								System.out.println("Logging out..");
+							}
+						} else if(userAccount.getStatus().equals("canceled")) {
+							System.out.println("Your account " + userAccount.getAccountNumber() 
+								+ " with a balance of " + userAccount.getBalance() 
+								+ " has been canceled. Please either:\n'Reapply' | 'Log Out'");
+							accounts.remove(accNum);
+							String apply = scan.nextLine();
+							if(apply.toLowerCase().equals("reapply")) {
+								Integer newAccount = Customer.applyForAccount(activeUser.getUsername(), accounts);
+								activeUser.setAccountNumber(newAccount);
+								users.put(activeUser.getUsername(), activeUser);
+							} else if (apply.toLowerCase().equals("log out")) {
+								System.out.println("Logging out..");
+							}
 						}
-					} while(true);
-				} else if(userAccount.getStatus().equals("pending")) {
-					System.out.println("Your application has not yet "
-							+ "been processed. Please sign back in later. Signing out...");
-				} else if(userAccount.getStatus().equals("denied")) {
-					System.out.println("Your application for a " + userAccount.getAccountType() 
-						+ " account with an initial deposit of " + userAccount.getBalance() 
-						+ " has been denied. Please either:\n'Reapply' | 'Log Out'");
-					accounts.remove(accNum);
-					String apply = scan.nextLine();
-					if(apply.toLowerCase().equals("reapply")) {
-						Integer newAccount = Customer.applyForAccount(activeUser.getUsername(), accounts);
-						activeUser.setAccountNumber(newAccount);
-						users.put(activeUser.getUsername(), activeUser);
-					} else if (apply.toLowerCase().equals("log out")) {
-						System.out.println("Logging out..");
+					} else if(response.toLowerCase().equals("log out")) {
+						System.out.println("Logging out...");
+						break;
+					} else {
+						System.out.println("Invalid command");
+						continue;
 					}
-				} else if(userAccount.getStatus().equals("denied")) {
-					System.out.println("Your account " + userAccount.getAccountNumber() 
-						+ " with a balance of " + userAccount.getBalance() 
-						+ " has been canceled. Please either:\n'Reapply' | 'Log Out'");
-					accounts.remove(accNum);
-					String apply = scan.nextLine();
-					if(apply.toLowerCase().equals("reapply")) {
-						Integer newAccount = Customer.applyForAccount(activeUser.getUsername(), accounts);
-						activeUser.setAccountNumber(newAccount);
-						users.put(activeUser.getUsername(), activeUser);
-					} else if (apply.toLowerCase().equals("log out")) {
-						System.out.println("Logging out..");
-					}
-				}
+				} while(true);
+				
 			} else {
 				System.out.println("Welcome new customer! Would you like to apply for an account?\n"
 						+ "'Yes' | 'No'");
@@ -298,9 +302,6 @@ public class Driver {
 		} else {
 			System.out.println("Internal error.");
 		}
-
-		// Serialize out
-		userSerial.serializeMe(users, "users.txt.");
 
 		System.out.println("Closing...");
 		scan.close();

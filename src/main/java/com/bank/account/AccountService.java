@@ -2,6 +2,7 @@ package com.bank.account;
 
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -121,7 +122,7 @@ public class AccountService{
 		}
 	}
 	
-	public HashMap<String, Account> getMyAccounts(int userId){
+	public ArrayList<Account> getMyAccounts(int userId){
 		return accDao.getMyAccounts(userId);
 	}
 	

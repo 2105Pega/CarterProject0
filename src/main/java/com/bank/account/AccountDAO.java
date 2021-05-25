@@ -1,5 +1,6 @@
 package com.bank.account;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface AccountDAO {
@@ -8,7 +9,7 @@ public interface AccountDAO {
 	public boolean transfer(int givingAccNum, int receivingAccNum, double amount);
 	public boolean deposit(int accNum, double amount);
 	public boolean withdraw(int accNum, double amount);
-	public HashMap<String,Account> getMyAccounts(int userId);
+	public ArrayList<Account> getMyAccounts(int userId);
 	public boolean addAccount(Account acc);
 	public boolean deleteAccount(int accNum);
 	public boolean getApplications();

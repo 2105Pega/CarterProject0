@@ -119,7 +119,7 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
-	public HashMap<String, Account> getMyAccounts(int userId) {
+	public ArrayList<Account> getMyAccounts(int userId) {
 		try (Connection conn = ConnectionUtils.getConnection()) {
 
 			String sql = "select * from accounts a \r\n"
@@ -129,7 +129,7 @@ public class AccountDAOImpl implements AccountDAO {
 			stmnt1.setInt(1, userId);
 			ResultSet rs = stmnt1.executeQuery();
 			// write them into hash map
-			HashMap<String, Account> accs = new HashMap<String, Account>();
+			ArrayList<Account> accs = new ArrayList<Account>();
 			while (rs.next()) {
 				Account a = new Account(rs.getInt("account_number"), 
 					rs.getDouble("account_balance"),
@@ -137,7 +137,7 @@ public class AccountDAOImpl implements AccountDAO {
 					getOwners(rs.getInt("account_number")),
 					rs.getString("account_status")
 				);
-				accs.put(rs.getString("account_type"), a);
+				accs.add(a);
 			}
 
 			return accs;
