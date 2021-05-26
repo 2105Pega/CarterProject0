@@ -1,0 +1,44 @@
+create table accounts (
+	account_number serial primary key,
+	account_balance integer,
+	account_type varchar(30),
+	account_status varchar(30)
+)
+
+create table users (
+	user_id serial primary key,
+	user_username varchar(30),
+	user_password varchar(30),
+	user_access varchar(10) 
+)
+
+create table users_accounts (
+	user_id integer references users(user_id),
+	account_number integer references accounts(account_number)
+)
+
+insert into users (user_username, user_password, user_access, user_fname, user_lname) values ('tocean','jrobertsnumber1fan','customer','Tess','Ocean')
+
+insert into users (user_username, user_password, user_access, user_fname, user_lname) values ('tbenedict','bellagio','customer','Terry','Benedict')
+
+insert into accounts (account_balance, account_type, account_status) values (150000000, 'saving', 'approved')
+
+insert into users_accounts (user_id,account_number) values (13,11) -- This will be wrong for you, the serials don't reset for me.
+
+select * from users u 
+inner join users_accounts ua on u.user_id = ua.user_id 
+inner join accounts a on ua.account_number = a.account_number 
+where a.account_number = 1
+
+select * from accounts a 
+inner join users_accounts ua on a.account_number = ua.account_number 
+inner join users u on ua.user_id = u.user_id 
+where ua.user_id = 4
+
+
+select * from accounts
+
+select * from users
+
+select * from users_accounts
+
