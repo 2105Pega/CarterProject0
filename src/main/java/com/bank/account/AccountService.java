@@ -134,20 +134,21 @@ public class AccountService{
 		return accDao.deleteAccount(accNum);
 	}
 
-	public void reviewApplication() {
-		Scanner localScan = new Scanner(System.in);
+	public void reviewApplication(Scanner localScan) {
 		System.out.println("Select an account to review by the account number:");
 		boolean success = accDao.getApplications();
 		if(success) {
 			int accNum = localScan.nextInt();
 			localScan.nextLine();
-			System.out.println("'Approve' or 'Deny' account " + accNum + "?");
+			System.out.println("'Approve' or 'Deny' account " + accNum + "? Or 'Exit'");
 			String input = localScan.nextLine();
 			String status = "";
 			if(input.toLowerCase().startsWith("app")) 
 				status = "approved";
 			else if (input.toLowerCase().startsWith("den")) 
 				status = "denied";
+			else if (input.toLowerCase().startsWith("exit"))
+				return;
 			else 
 				System.out.println("Invalid input. Exiting...");
 			boolean appOrDen = accDao.approveOrDeny(accNum, status);
@@ -158,9 +159,47 @@ public class AccountService{
 		} else {
 			log.error("Connection or sql statement error. Exiting...");
 		}
-		localScan.close();
 	}
 	
+	public void cancelAccount(Integer accNum) {
+		accDao.approveOrDeny(accNum, "canceled");
+	}
+	
+	public Account applyForAccount(Integer userId, Scanner accScan) {
+		ArrayList<Integer> owners = new ArrayList<Integer>();
+		owners.add(userId);
+		Account newAcc;
+		do {
+			System.out.println("Enter Type of accout ('Checking' | 'Saving' | 'Joint')");
+			String accType = accScan.nextLine().toLowerCase();
+			if(accType.equals("joint")) {
+				System.out.println("Enter other owners' IDs (separated by ONE space)");
+				String input = accScan.nextLine();
+				String[] inputArr;
+				inputArr = input.split(" ");
+				for (String s : inputArr) {
+					Integer temp = Integer.parseInt(s);
+					owners.add(temp);
+				}
+				System.out.println("Enter an initial balance");
+				double bal = accScan.nextDouble();
+				newAcc = new Account(0, bal, accType, owners, "pending");
+				accDao.addAccount(newAcc);
+				return newAcc;
+			} else if (accType.equals("checking") || accType.equals("saving")) {
+				System.out.println("Enter an initial balance");
+				double bal = accScan.nextDouble();
+				newAcc = new Account(0, bal, accType, owners, "pending");
+				accDao.addAccount(newAcc);
+				return newAcc;
+			} else {
+				System.out.println("Invalid response. Try again.");
+				continue;
+			}
+		} while(true);
+
+	}
+
 }
 
 

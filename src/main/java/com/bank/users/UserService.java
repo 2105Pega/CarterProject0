@@ -24,4 +24,5 @@ public class UserService {
 	public boolean deleteUser(int userId) {
 		return uDao.deleteUser(userId);
 	}
+	
 }

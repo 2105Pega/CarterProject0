@@ -167,9 +167,10 @@ public class AccountDAOImpl implements AccountDAO {
 			int newAccNum = rs.getInt("account_number");
 			acc.setAccountNumber(newAccNum);
 			
-			// update the status  to pending, something we'd expect
-			Statement stmnt3 = conn.createStatement();
-			stmnt3.execute("update accounts set account_status = 'pending' where account_status = 'new'");
+			// update the status to something we'd expect
+			PreparedStatement stmnt3 = conn.prepareStatement("update accounts set account_status = ? where account_status = 'new'");
+			stmnt3.setString(1, acc.getStatus());
+			stmnt3.execute();
 			
 			// Add account and owners to the joint table if the account has owners
 			String sql4 = "insert into users_accounts (user_id,account_number) values (?,?)";
@@ -212,7 +213,7 @@ public class AccountDAOImpl implements AccountDAO {
 			ResultSet rs = stmnt.executeQuery(sql);
 			System.out.println("Account Number | Balance | Account Type");
 			while (rs.next()) {
-				System.out.println(rs.getInt("account_number") + " | " + rs.getDouble("account_balace") 
+				System.out.println(rs.getInt("account_number") + " | " + rs.getDouble("account_balance") 
 					+ " | " + rs.getString("account_type"));
 			}
 			return true;

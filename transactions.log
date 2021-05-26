@@ -160,3 +160,9 @@
 16:32:36.699 ERROR - Error. Cannot deposit negative amount.
 16:32:36.701 WARN  - Transferred 50.0 from account 1 to account 2.
 16:32:36.701 ERROR - Error. Cannot withdraw transfer amount.
+18:35:02.507 WARN  - Deposited 2000.25 to account 2. New balance: 2550.25.
+19:03:21.595 WARN  - Transferred 57.0 from account 6 to account 8.
+19:04:06.902 ERROR - Connection or sql statement error. Exiting...
+19:07:20.290 WARN  - Deposited 100000.01 to account 3. New balance: 100200.01.
+19:50:08.076 WARN  - Deposited 1.0E7 to account 9. New balance: 1.00002E7.
+19:51:39.190 WARN  - Transferred 1000.0 from account 9 to account 5.

@@ -1,8 +1,12 @@
 package com.bank.driver;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Scanner;
 
 import com.bank.users.User;
@@ -10,18 +14,46 @@ import com.bank.users.UserService;
 
 public class SignInner {
 
-	public static User logIn(HashMap<Integer, User> users) {
-		Scanner signInScan = new Scanner(System.in);
+	public static User logIn(HashMap<Integer, User> users, Scanner signInScan) {
+		FileInputStream fis;
+		String adminUsername = "";
+		String adminPassword = "";
+		try {
+			fis = new FileInputStream("src/main/resources/banking_db_properties.properties");
+			Properties prop = new Properties();
+			prop.load(fis);
+			adminUsername = prop.getProperty("ADMIN_USERNAME");
+			adminPassword = prop.getProperty("ADMIN_PASSWORD");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		boolean hasUsername = false;
 		System.out.println("Enter username: ");
 		String username = signInScan.nextLine();
+		if (username.equals(adminUsername)) {
+			System.out.println("Enter password:");
+			String password = signInScan.nextLine();
+			String expectedPassword = adminPassword;
+			if (password.equals(expectedPassword)) {
+				System.out.println("Logging in...");
+				User activeUser = new User(0, "admin", "admin", "admin", "admin", "admin");
+				return activeUser;
+			} else {
+				System.out.println("Incorrect password :(");
+				return null;
+			}
+		}
 		Collection<User> usersColl = users.values();
 		Iterator<User> collIt = usersColl.iterator();
-		boolean hasUsername = false;
 		User activeUser = null;
 		while(collIt.hasNext()) {
-			String storedUsername = collIt.next().getUsername();
+			activeUser = collIt.next();
+			String storedUsername = activeUser.getUsername();
 			if (username.equals(storedUsername)) {
-				activeUser = collIt.next();
 				hasUsername = true;
 				break;
 			}
@@ -34,11 +66,9 @@ public class SignInner {
 			String expectedPassword = activeUser.getPassword();
 			if (password.equals(expectedPassword)) {
 				System.out.println("Logging in...");
-				signInScan.close();
 				return activeUser;
 			} else {
 				System.out.println("Incorrect password :(");
-				signInScan.close();
 				return null;
 			}
 
@@ -48,18 +78,15 @@ public class SignInner {
 					+ "Would you like to create and acocunt?\n'Yes'| 'No'");
 			String response = signInScan.nextLine();
 			if (response.toLowerCase().startsWith("y")) {
-				signInScan.close();
-				return signUp();
+				return signUp(signInScan);
 			} else {
-				signInScan.close();
 				return null;
 			}
 		}
 	}
 
-	public static User signUp() {
+	public static User signUp(Scanner signInScan) {
 		UserService uServ = new UserService();
-		Scanner signInScan = new Scanner(System.in);
 		// create new username
 		System.out.println("Enter new username: ");
 		String username = signInScan.nextLine();
@@ -71,8 +98,7 @@ public class SignInner {
 		String lName = signInScan.nextLine();
 		User temp = new User(0, username, password, fName, lName, "customer");
 		uServ.addUser(temp);
-		System.out.println("New User Created!\nSigning you in...");
-		signInScan.close();
+		System.out.println("New User Created!");
 		return temp;
 	}
 
